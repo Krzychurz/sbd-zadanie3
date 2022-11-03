@@ -26,3 +26,7 @@ ZAD BETWEEN, NOT BETWEEN, IN, NOT IN, SUBQUERY
 5. SELECT * FROM `products` WHERE (price BETWEEN 10 AND 15) AND category_id NOT IN (1,2,3,4);
 6. SELECT * FROM `orders` WHERE order_date BETWEEN '1996-07-01' AND '1996-07-31';
 7. SELECT * FROM `orders` WHERE customer_id IN((SELECT id FROM `customers` WHERE id BETWEEN 77 AND 90));
+
+ZAD JOIN, INNER JOIN, LEFT JOIN, RIGHT JOIN, SELF JOIN
+1. SELECT c.*, o.* FROM `customers` AS c JOIN orders AS o ON c.id = o.customer_id;
+2. 
