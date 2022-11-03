@@ -29,4 +29,7 @@ ZAD BETWEEN, NOT BETWEEN, IN, NOT IN, SUBQUERY
 
 ZAD JOIN, INNER JOIN, LEFT JOIN, RIGHT JOIN, SELF JOIN
 1. SELECT c.*, o.* FROM `customers` AS c JOIN orders AS o ON c.id = o.customer_id;
-2. 
+2. SELECT c.*, COUNT(o.customer_id) FROM `customers` AS c JOIN orders AS o ON c.id = o.customer_id GROUP BY o.customer_id;
+3. SELECT c.*, o.id FROM `customers` AS c INNER JOIN orders AS o ON c.id = o.customer_id;
+4. SELECT o.*, e.* FROM orders o RIGHT JOIN employees e ON o.employee_id=e.id;
+5. SELECT A.customer_name, B.customer_name, A.city FROM customers A JOIN customers B WHERE A.id <> B.id AND A.city = B.city ORDER BY A.city;
