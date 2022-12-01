@@ -33,3 +33,33 @@ ZAD JOIN, INNER JOIN, LEFT JOIN, RIGHT JOIN, SELF JOIN
 3. SELECT c.*, o.id FROM `customers` AS c INNER JOIN orders AS o ON c.id = o.customer_id;
 4. SELECT o.*, e.* FROM orders o RIGHT JOIN employees e ON o.employee_id=e.id;
 5. SELECT A.customer_name, B.customer_name, A.city FROM customers A JOIN customers B WHERE A.id <> B.id AND A.city = B.city ORDER BY A.city;
+
+ZAD LIMIT, OFFSET
+1. SELECT * FROM orders ORDER BY id DESC LIMIT 10;
+2. SELECT * FROM orders LIMIT 10 OFFSET 10;
+
+ZAD HAVING, EXISTS
+1. SELECT * FROM customers GROUP BY country HAVING COUNT(country) > 5;
+2. SELECT customer_name, COUNT(orders.customer_id) FROM customers JOIN orders ON orders.customer_id = customers.id GROUP BY customer_name HAVING COUNT(orders.customer_id) BETWEEN 2 AND 4;
+3. SELECT last_name, first_name, COUNT(employee_id) FROM `employees` JOIN orders ON orders.employee_id = employees.id GROUP BY last_name HAVING COUNT(employee_id) > 10;
+4. SELECT last_name, first_name, COUNT(o.employee_id) FROM employees e JOIN orders o ON o.employee_id = e.id GROUP BY last_name HAVING COUNT(o.employee_id) > 25 AND (last_name = "Davolio" OR last_name="Fuller");
+5. SELECT s.name FROM suppliers s WHERE EXISTS (SELECT name FROM products WHERE price < 20 AND s.id = products.supplier_id);
+6. SELECT s.name FROM suppliers s WHERE EXISTS (SELECT name FROM products WHERE price = 22 AND s.id = products.supplier_id);
+
+ZAD ANY, All
+1. SELECT name FROM products WHERE id = ANY(SELECT product_id FROM orders_details WHERE quantity = 10);
+2. SELECT name FROM products WHERE id = ANY(SELECT product_id FROM orders_details WHERE quantity > 99);
+3. SELECT ALL name FROM products;
+4. SELECT name FROM products WHERE id = ALL (SELECT product_id FROM orders_details WHERE quantity = 10);
+
+ZAD CASE
+1. SELECT products.name, orders_details.quantity, CASE WHEN quantity > 30 THEN "Liczba sztuk jest większa niż 30" WHEN quantity = 30 THEN "Liczba sztuk jest równa 30" WHEN quantity < 30 THEN "Liczba sztuk jest mniejsza niż 30" END FROM `orders_details` JOIN products ON products.id = orders_details.product_id;
+2. SELECT customer_name FROM customers ORDER BY CASE WHEN city = NULL THEN country ELSE city END;
+
+ZAD ALL
+1. SELECT name FROM `products` JOIN orders_details ON orders_details.product_id = products.id HAVING COUNT(orders_details.id) > ALL (SELECT COUNT(id) FROM orders_details GROUP BY product_id ORDER BY COUNT(id) DESC LIMIT 1 OFFSET 10);
+2. 
+
+ZAD DISTINCT
+1. SELECT DISTINCT country FROM `customers`;
+2. SELECT COUNT(DISTINCT country) FROM `customers`;
